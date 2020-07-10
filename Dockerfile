@@ -1,8 +1,11 @@
-FROM php:7.0-apache
+FROM php:7.2-apache
 
 RUN apt-get update \
  && apt-get install -y git zlib1g-dev \
  && docker-php-ext-install zip \
+ && apt-get install -y libicu-dev \
+ && docker-php-ext-configure intl \
+ && docker-php-ext-install intl \
  && a2enmod rewrite \
  && sed -i 's!/var/www/html!/var/www/public!g' /etc/apache2/sites-available/000-default.conf \
  && mv /var/www/html /var/www/public \
